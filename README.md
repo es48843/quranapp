@@ -1,66 +1,100 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel 9 Docker Template
+Laravel 9 Docker template using PHP 8.1.6, nginx, redis, and Postgres SQL 14.4.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Features
+* [Docker](https://www.docker.com/)
+* [Dockerfile and docker compose V3 with Alpine](https://hub.docker.com/_/alpine)
+* [Nginx](https://www.nginx.com)
+* [Laravel 9](https://laravel.com/)
+* [Postgres 14.4](https://www.postgresql.org/)
+* [PHP 8.1.6](https://www.php.net/)
+* [PHPStan](https://phpstan.org/)
+* [PHP Mess Detector](https://phpmd.org/)
+* [PHP Copy/Paste Detector](https://github.com/sebastianbergmann/phpcpd)
+* [PHP Coding Standard Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer)
+* [Laravel IDE Helper](https://github.com/barryvdh/laravel-ide-helper)
+* [Laravel Telescope](https://laravel.com/docs/9.x/telescope)
+* [Prettier](https://prettier.io/)
+* [Prettier plugin for PHP](https://github.com/prettier/plugin-php)
+* [Github Action](https://github.com/wiliamhw/Laravel-9-Docker-Template/tree/main/.github/workflows)
+  * [Static Analysis & Automated Test](https://github.com/wiliamhw/Laravel-9-Docker-Template/blob/main/.github/workflows/build.yml)
+  * [Code Formatter](https://github.com/wiliamhw/Laravel-9-Docker-Template/blob/main/.github/workflows/code-check.yml)
+* [Makefile](https://github.com/wiliamhw/Laravel-9-Docker-Template/blob/main/Makefile)
+* [API Error Handler](https://github.com/wiliamhw/Laravel-9-Docker-Template/blob/main/src/app/Exceptions/Traits/HandleApiExceptions.php)
 
-## About Laravel
+## Getting Started
+### Prerequisites
+- Using UNIX-based system.
+- Download and Install [Docker](https://docs.docker.com/engine/install/).
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Installation
+#### 0. Clone this project
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+#### 1. Create `.env` file from `.env.example` in root directory
+The given configuration will be used by Docker to build the containers.  
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+If you change `NGINX_PORT` to other than port 8000 or `PHP_PORT` to other than port 9000,
+you need to adjust `listen` and `fastcgi_pass` in nginx configuration at 
+[`/nginx/default.conf`](https://github.com/wiliamhw/Laravel-9-Docker-Template/blob/main/nginx/default.conf).
 
-## Learning Laravel
+For example, if you change `NGINX_PORT` to port 8005 or `PHP_PORT` to port 9005, the
+[`/nginx/default.conf`](https://github.com/wiliamhw/Laravel-9-Docker-Template/blob/main/nginx/default.conf) will be filled
+like this:
+```
+server {
+	listen 8005;
+	...
+    
+	location ~ \.php$ {
+		try_files $uri =404;
+		fastcgi_split_path_info ^(.+\.php)(\.+)$;
+		fastcgi_pass php:9005;
+		...
+	}
+	...
+}
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+#### 2. Run command `make build` on your terminal
+This command will build Docker Compose containers.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+#### 3. Run command `make up` on your terminal
+This command will run Docker Compose containers.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+#### 4. Run command `make ex` on your terminal
+This command will open PHP container terminal.
 
-## Laravel Sponsors
+#### 5. Adjust `.env` file in `/src` directory
+The given DB credentials, DB port, and Redis port in `/src/.env` must be equal to the given values in `/.env`.  
+You also need to change `DB_HOST` value in `/src/.env` based on this format: `{CONTAINER_PREFIX}_postgres`.  
+You can see the value of `CONTAINER_PREFIX` in `/.env` at the project root directory.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+#### 6. Go to [http://localhost:8000/](http://localhost:8000/) or any port you assign to `NGINX_PORT` in the root directory `.env` file
+This action will open Laravel application in a web browser.  
+If you want to open [Laravel Telescope](https://laravel.com/docs/9.x/telescope) page, you can access
+[http://localhost:8000/telescope](http://localhost:8000/telescope) or any port you assign to `NGINX_PORT` in the root directory `.env` file.
 
-### Premium Partners
+## Available Commands
+To run NPM or composer command, your terminal need to be inside `src` directory in PHP container terminal.  
+To do that, you need to open PHP container terminal by running `make ex` on the project root directory.  
+Then, in the PHP container terminal, go to `src` directory by running `cd src`.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+### Makefile
+>Makefile command can be run on the project root directory, where `Makefile` resides in.
+* `make build` : build Docker Compose containers
+* `make up` : run Docker Compose containers
+* `make stop` : stop Docker Compose containers
+* `make down` : remove Docker Compose containers
+* `make purge` : remove Postgres SQL volume in host.
+* `make ex` : open PHP container terminal
+* `make analyse` : run static analysis and store the result in `/src/storage/logs/analyse.log`
 
-## Contributing
+### Composer
+> Your terminal needs to be inside `src` directory in PHP container terminal.
+* `composer test` : run Laravel automated test in parallel
+* `composer ide-helper` : run [Laravel IDE Helper](https://github.com/barryvdh/laravel-ide-helper)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### NPM
+> Your terminal needs to be inside `src` directory in PHP container terminal.
+* `npm run format` : reformat code using [Prettier](https://prettier.io/)
+* `npm run format:check` : check code format using [Prettier](https://prettier.io/)
