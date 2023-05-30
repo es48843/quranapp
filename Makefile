@@ -1,6 +1,8 @@
-include .env
+include .stub/*.mk
 
-build:
+.PHONY: build
+build:: ##@Docker Build all containers
+build:: _build-info
 	make stop_services
 	sudo chmod 777 -R postgresql || true
 	docker-compose -f docker-compose.yml build
@@ -13,37 +15,71 @@ build:
 	make stop
 	echo "Build complete"
 
-up:
-	make stop_services
-	docker-compose -f docker-compose.yml up -d
+.PHONY: run
+run:: ##@Docker Start all containers, but without build
+run:: _build-info
+	docker-compose \
+		up
 
-stop:
+.PHONY: up
+up:: ##@Docker Start all containers, with build
+up::
+	make build
+	make run
+
+.PHONY: stop
+stop:: ##@Docker Stop all containers
+stop::
 	docker-compose -f docker-compose.yml stop
 	make start_services
 
-down:
+.PHONY: down
+down:: ##@Docker Stop and remove all containers
+down::
 	docker-compose -f docker-compose.yml down
 	make start_services
 
-purge:
+.PHONY: purge
+purge:: ##@Docker Remove all containers and images
+purge::
 	docker rmi -f $(CONTAINER_PREFIX)
 	sudo chmod -R +rwx postgresql
 	sudo rm -rf postgresql
 
-ex:
+.PHONY: shell
+shell:: ##@Local-Environment Open a shell into running app container
+shell::
 	docker exec -it $(CONTAINER_PREFIX)_php /bin/sh
 
-analyse:
+.PHONY: analyse
+analyse:: ##@Local-Environment Run static code
+analyse::
 	cd src && composer analyse 2>&1 | tee storage/logs/analyse.log
 
-start_services:
+.PHONY: start_services
+start_services:: ##@Local-Environment Start all services
+start_services::
 	sudo service redis-server start || true
 	sudo service postgresql start || true
 	sudo service nginx start || true
 
-stop_services:
+.PHONY: stop_services
+stop_services:: ##@Local-Environment Stop all services
+stop_services::
 	sudo service redis-server stop || true
 	sudo service postgresql stop || true
 	sudo service nginx stop || true
 
-.PHONY: build up stop down ex analyse purge start_services stop_services
+#.PHONY: build up stop down ex analyse purge start_services stop_services
+
+# -----------------------------------------------------------------------------
+# Helpers
+# -----------------------------------------------------------------------------
+.PHONY: _build-info
+_build-info::
+	@echo "";
+	@echo "";
+	@echo "${YELLOW}Update version to  ${GREEN}$(VERSION)/$(GIT_COMMIT) ${RESET}";
+	@echo '{ "version": "$(VERSION)", "git": "$(GIT_COMMIT)", "timestamp": "$(TIMESTAMP)"}' > .buildinfo.json
+	@mkdir -p packages/web/public/build
+	@cp .buildinfo.json packages/web/public/build/
