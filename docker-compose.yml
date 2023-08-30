@@ -1,62 +1,67 @@
-version: '3'
+version: '3.5'
 
 networks: 
-    laravel:
-        driver: bridge
+    quranapp:
+        driver: 'bridge'
 
 services: 
     nginx:
         image: nginx:alpine
         container_name: "${CONTAINER_PREFIX}_nginx"
-        restart: unless-stopped
+        restart: 'unless-stopped'
         tty: true
         ports:
             - "${NGINX_PORT}:8000"
         volumes: 
-            - ./src:/var/www/app
-            - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+            - './src:/var/www/app'
+            - './nginx/default.conf:/etc/nginx/conf.d/default.conf'
+            - '${PWD}/docker/dev/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d'
         depends_on: 
-            - php
-            - postgres
+            - 'php'
+            - 'postgres'
         networks: 
-            - laravel
+            - 'quranapp'
 
     postgres:
-        image: postgres:14.4-alpine
+        image: 'postgres:14.4-alpine'
         container_name: "${CONTAINER_PREFIX}_postgres"
-        restart: unless-stopped
+        restart: 'unless-stopped'
         tty: true
         ports:
-            - "${DB_PORT}:5433"
+            - "5433:5432"
         volumes:
-            - ./postgresql:/var/lib/postgresql/data
+            - '${PWD}/docker/dev/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d'
+            - './postgresql:/var/lib/postgresql/data'
         environment:
-            - POSTGRES_DB=${DB_DATABASE}
-            - POSTGRES_USER=${DB_USERNAME}
-            - POSTGRES_PASSWORD=${DB_PASSWORD}
+            POSTGRES_DB: ${DB_DATABASE}
+            POSTGRES_USER: ${DB_USERNAME}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            QURANAPP_USER: 'quranapp'
+            QURANAPP_PW: 'quranapp'
         networks:
-            - laravel
+            - 'quranapp'
 
     php:
         build:
-            context: .
-            dockerfile: Dockerfile
-        image: laravel_docker:latest
+            context: '.'
+            dockerfile: '${PWD}/Dockerfile'
+        image: '${CONTAINER_PREFIX}:latest'
         container_name: "${CONTAINER_PREFIX}_php"
-        restart: unless-stopped
+        restart: 'unless-stopped'
         tty: true
-        working_dir: /var/www/app
+        working_dir: '/var/www/app'
         volumes: 
-            - ./src:/var/www/app
+            - './src:/var/www/app'
+            - '${PWD}/docker/dev/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d'
         ports: 
             - "${PHP_PORT}:9000"
         networks: 
-            - laravel
+            - 'quranapp'
 
     redis:
-        image: redis:alpine
+        image: 'redis:alpine'
         container_name: "${CONTAINER_PREFIX}_redis"
         ports:
             - "${REDIS_PORT}:6378"
         networks:
-            - laravel
+            - 'quranapp'

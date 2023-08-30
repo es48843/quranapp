@@ -10,6 +10,10 @@ module.exports = {
         extend: {
             colors: {
                 'gray-750': '#28323E',
+                'primary': '#52AE69',
+                'primary-soft': '#DCF3ED',
+                'bg-light': '#ECF0F3',
+                'secondary': '#EAC075',
             },
             transitionProperty: {
                 width: "width",

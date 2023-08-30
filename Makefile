@@ -3,10 +3,9 @@ include .stub/*.mk
 .PHONY: build
 build:: ##@Docker Build all containers
 build:: _build-info
-	make stop_services
 	sudo chmod 777 -R postgresql || true
-	docker-compose -f docker-compose.yml build
-	docker-compose -f docker-compose.yml up -d
+	docker compose -f docker-compose.yml build
+	docker compose -f docker-compose.yml up -d
 	docker exec -d $(CONTAINER_PREFIX)_php composer install
 	docker exec -d $(CONTAINER_PREFIX)_php [ ! -f .env ] \
 		&& docker exec -d $(CONTAINER_PREFIX)_php cp -n .env.example .env \
@@ -18,7 +17,7 @@ build:: _build-info
 .PHONY: run
 run:: ##@Docker Start all containers, but without build
 run:: _build-info
-	docker-compose \
+	docker compose -f docker-compose.yml \
 		up
 
 .PHONY: up
@@ -30,14 +29,12 @@ up::
 .PHONY: stop
 stop:: ##@Docker Stop all containers
 stop::
-	docker-compose -f docker-compose.yml stop
-	make start_services
+	docker compose -f docker-compose.yml stop
 
 .PHONY: down
 down:: ##@Docker Stop and remove all containers
 down::
-	docker-compose -f docker-compose.yml down
-	make start_services
+	docker compose -f docker-compose.yml down
 
 .PHONY: purge
 purge:: ##@Docker Remove all containers and images
@@ -56,20 +53,6 @@ analyse:: ##@Local-Environment Run static code
 analyse::
 	cd src && composer analyse 2>&1 | tee storage/logs/analyse.log
 
-.PHONY: start_services
-start_services:: ##@Local-Environment Start all services
-start_services::
-	sudo service redis-server start || true
-	sudo service postgresql start || true
-	sudo service nginx start || true
-
-.PHONY: stop_services
-stop_services:: ##@Local-Environment Stop all services
-stop_services::
-	sudo service redis-server stop || true
-	sudo service postgresql stop || true
-	sudo service nginx stop || true
-
 #.PHONY: build up stop down ex analyse purge start_services stop_services
 
 # -----------------------------------------------------------------------------
@@ -81,5 +64,5 @@ _build-info::
 	@echo "";
 	@echo "${YELLOW}Update version to  ${GREEN}$(VERSION)/$(GIT_COMMIT) ${RESET}";
 	@echo '{ "version": "$(VERSION)", "git": "$(GIT_COMMIT)", "timestamp": "$(TIMESTAMP)"}' > .buildinfo.json
-	@mkdir -p packages/web/public/build
-	@cp .buildinfo.json packages/web/public/build/
+	@mkdir -p src/build
+	@cp .buildinfo.json src/build/

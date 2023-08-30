@@ -24,11 +24,11 @@
             }
         </script>
     </head>
-    <body class="bg-gray-50 dark:bg-gray-750" x-data="{ expandedSideBar: true }"
+    <body class="bg-gray-100 dark:bg-gray-750" x-data="{ expandedSideBar: false }"
           @resize.window="
                 width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
                 if (width < 640) {
-                    expandedSideBar = true;
+                    expandedSideBar = false;
                 }
             "
     >
@@ -50,7 +50,7 @@
                         x-transition:enter-start="-z-10 -translate-x-5"
                         x-transition:leave="transition ease-in duration-100"
                         x-transition:leave-start="-z-10 -translate-x-0"
-                        x-transition:leave-end="-translate-x-5" 
+                        x-transition:leave-end="-translate-x-5"
                         class="self-center text-sm font-semibold sm:text-xl whitespace-nowrap dark:text-white">QuranApp</span>
                     </a>
                     <button @click="expandedSideBar = ! expandedSideBar"
@@ -105,20 +105,20 @@
         </div>
     </nav>
 
-    <aside id="sidebarNav" class="fixed top-0 left-0 z-40 w-auto h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
-        <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800"        >
+    <aside id="sidebarNav" class="flex fixed top-0 left-0 z-40 w-auto h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
+        <div class="h-full px-3 pb-4 overflow-y-auto dark:bg-gray-800 pt-20 bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700">
             <ul class="space-y-2 font-medium" >
                 <li>
-                    <a href="#" class="flex items-center p-2 text-sm text-gray-500 dark:text-gray-300 rounded-lg hover:text-blue-600 dark:hover:text-blue-500 hover:bg-gray-100 dark:hover:bg-gray-750"
+                    <a href="#" class="flex items-center p-2 text-sm text-gray-500 dark:text-gray-300 rounded-lg hover:text-primary dark:hover:text-primary hover:bg-primary-soft dark:hover:bg-gray-750"
                        data-tooltip-target="tooltip-dashboard" data-tooltip-placement="right"
                     >
                         <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path></svg>
-                        <span   
+                        <span
                         x-transition:enter="transition ease-out duration-100"
                         x-transition:enter-start="-translate-x-5"
                         x-transition:leave="transition ease-in duration-100"
                         x-transition:leave-start="-translate-x-0"
-                        x-transition:leave-end="-translate-x-5" 
+                        x-transition:leave-end="-translate-x-5"
                         x-show="expandedSideBar"
                         class="ml-3 pr-4" >Dashboard</span>
                     </a>
@@ -129,9 +129,222 @@
                 </li>
             </ul>
         </div>
+        <div class="bg-white dark:bg-gray-800 py-4 px-8 my-14 overflow-y-auto w-64 md:w-72">
+            <a href="#" class="my-3 block w-auto p-4 bg-white border border-gray-200 hover:border-primary rounded-lg shadow hover:bg-gray-100 dark:bg-gray-750 dark:border-gray-700 dark:hover:bg-gray-700">
+                <div class="flex">
+                    <div class="mr-2 inline-flex items-center justify-center text-sm w-6 h-6 font-bold text-primary bg-primary-soft dark:text-primary-soft dark:bg-primary rounded-full">
+                        1
+                    </div>
+                    <div>
+                        <p class="text-sm sm:text-base font-bold text-gray-900 dark:text-white">
+                            Mesimi 1
+                        </p>
+                        <p class="text-gray-500 text-muted text-sm dark:text-white mt-0.5">
+                            Alfabeti
+                        </p>
+                    </div>
+                </div>
+            </a>
+            <a href="#" class="my-3 block w-auto p-4 bg-white border border-gray-200 hover:border-primary rounded-lg shadow hover:bg-gray-100 dark:bg-gray-750 dark:border-gray-700 dark:hover:bg-gray-700">
+                <div class="flex">
+                    <div class="mr-2 inline-flex items-center justify-center text-sm w-6 h-6 font-bold text-primary bg-primary-soft dark:text-primary-soft dark:bg-primary rounded-full">
+                        2
+                    </div>
+                    <div>
+                        <p class="text-sm sm:text-base font-bold text-gray-900 dark:text-white">
+                            Mesimi 2
+                        </p>
+                        <p class="text-gray-500 text-muted text-sm dark:text-white mt-0.5">
+                            Alfabeti
+                        </p>
+                    </div>
+                </div>
+            </a>
+            <a href="#" class="my-3 block w-auto p-4 bg-white border border-gray-200 hover:border-primary rounded-lg shadow hover:bg-gray-100 dark:bg-gray-750 dark:border-gray-700 dark:hover:bg-gray-700">
+                <div class="flex">
+                    <div class="mr-2 inline-flex items-center justify-center text-sm w-6 h-6 font-bold text-primary bg-primary-soft dark:text-primary-soft dark:bg-primary rounded-full">
+                        3
+                    </div>
+                    <div>
+                        <p class="text-sm sm:text-base font-bold text-gray-900 dark:text-white">
+                            Mesimi 3
+                        </p>
+                        <p class="text-gray-500 text-muted text-sm dark:text-white mt-0.5">
+                            Alfabeti
+                        </p>
+                    </div>
+                </div>
+            </a>
+            <a href="#" class="my-3 block w-auto p-4 bg-white border border-gray-200 hover:border-primary rounded-lg shadow hover:bg-gray-100 dark:bg-gray-750 dark:border-gray-700 dark:hover:bg-gray-700">
+                <div class="flex">
+                    <div class="mr-2 inline-flex items-center justify-center text-sm w-6 h-6 font-bold text-primary bg-primary-soft dark:text-primary-soft dark:bg-primary rounded-full">
+                        4
+                    </div>
+                    <div>
+                        <p class="text-sm sm:text-base font-bold text-gray-900 dark:text-white">
+                            Mesimi 4
+                        </p>
+                        <p class="text-gray-500 text-muted text-sm dark:text-white mt-0.5">
+                            Alfabeti
+                        </p>
+                    </div>
+                </div>
+            </a>
+            <a href="#" class="my-3 block w-auto p-4 bg-white border border-gray-200 hover:border-primary rounded-lg shadow hover:bg-gray-100 dark:bg-gray-750 dark:border-gray-700 dark:hover:bg-gray-700">
+                <div class="flex">
+                    <div class="mr-2 inline-flex items-center justify-center text-sm w-6 h-6 font-bold text-primary bg-primary-soft dark:text-primary-soft dark:bg-primary rounded-full">
+                        5
+                    </div>
+                    <div>
+                        <p class="text-sm sm:text-base font-bold text-gray-900 dark:text-white">
+                            Mesimi 5
+                        </p>
+                        <p class="text-gray-500 text-muted text-sm dark:text-white mt-0.5">
+                            Alfabeti
+                        </p>
+                    </div>
+                </div>
+            </a>
+            <a href="#" class="my-3 block w-auto p-4 bg-white border border-gray-200 hover:border-primary rounded-lg shadow hover:bg-gray-100 dark:bg-gray-750 dark:border-gray-700 dark:hover:bg-gray-700">
+                <div class="flex">
+                    <div class="mr-2 inline-flex items-center justify-center text-sm w-6 h-6 font-bold text-primary bg-primary-soft dark:text-primary-soft dark:bg-primary rounded-full">
+                        6
+                    </div>
+                    <div>
+                        <p class="text-sm sm:text-base font-bold text-gray-900 dark:text-white">
+                            Mesimi 6
+                        </p>
+                        <p class="text-gray-500 text-muted text-sm dark:text-white mt-0.5">
+                            Alfabeti
+                        </p>
+                    </div>
+                </div>
+            </a>
+            <a href="#" class="my-3 block w-auto p-4 bg-white border border-gray-200 hover:border-primary rounded-lg shadow hover:bg-gray-100 dark:bg-gray-750 dark:border-gray-700 dark:hover:bg-gray-700">
+                <div class="flex">
+                    <div class="mr-2 inline-flex items-center justify-center text-sm w-6 h-6 font-bold text-primary bg-primary-soft dark:text-primary-soft dark:bg-primary rounded-full">
+                        7
+                    </div>
+                    <div>
+                        <p class="text-sm sm:text-base font-bold text-gray-900 dark:text-white">
+                            Mesimi 7
+                        </p>
+                        <p class="text-gray-500 text-muted text-sm dark:text-white mt-0.5">
+                            Alfabeti
+                        </p>
+                    </div>
+                </div>
+            </a>
+            <a href="#" class="my-3 block w-auto p-4 bg-white border border-gray-200 hover:border-primary rounded-lg shadow hover:bg-gray-100 dark:bg-gray-750 dark:border-gray-700 dark:hover:bg-gray-700">
+                <div class="flex">
+                    <div class="mr-2 inline-flex items-center justify-center text-sm w-6 h-6 font-bold text-primary bg-primary-soft dark:text-primary-soft dark:bg-primary rounded-full">
+                        8
+                    </div>
+                    <div>
+                        <p class="text-sm sm:text-base font-bold text-gray-900 dark:text-white">
+                            Mesimi 8
+                        </p>
+                        <p class="text-gray-500 text-muted text-sm dark:text-white mt-0.5">
+                            Alfabeti
+                        </p>
+                    </div>
+                </div>
+            </a>
+            <a href="#" class="my-3 block w-auto p-4 bg-white border border-gray-200 hover:border-primary rounded-lg shadow hover:bg-gray-100 dark:bg-gray-750 dark:border-gray-700 dark:hover:bg-gray-700">
+                <div class="flex">
+                    <div class="mr-2 inline-flex items-center justify-center text-sm w-6 h-6 font-bold text-primary bg-primary-soft dark:text-primary-soft dark:bg-primary rounded-full">
+                        9
+                    </div>
+                    <div>
+                        <p class="text-sm sm:text-base font-bold text-gray-900 dark:text-white">
+                            Mesimi 9
+                        </p>
+                        <p class="text-gray-500 text-muted text-sm dark:text-white mt-0.5">
+                            Alfabeti
+                        </p>
+                    </div>
+                </div>
+            </a>
+            <a href="#" class="my-3 block w-auto p-4 bg-white border border-gray-200 hover:border-primary rounded-lg shadow hover:bg-gray-100 dark:bg-gray-750 dark:border-gray-700 dark:hover:bg-gray-700">
+                <div class="flex">
+                    <div class="mr-2 inline-flex items-center justify-center text-sm w-6 h-6 font-bold text-primary bg-primary-soft dark:text-primary-soft dark:bg-primary rounded-full">
+                        10
+                    </div>
+                    <div>
+                        <p class="text-sm sm:text-base font-bold text-gray-900 dark:text-white">
+                            Mesimi 10
+                        </p>
+                        <p class="text-gray-500 text-muted text-sm dark:text-white mt-0.5">
+                            Alfabeti
+                        </p>
+                    </div>
+                </div>
+            </a>
+            <a href="#" class="my-3 block w-auto p-4 bg-white border border-gray-200 hover:border-primary rounded-lg shadow hover:bg-gray-100 dark:bg-gray-750 dark:border-gray-700 dark:hover:bg-gray-700">
+                <div class="flex">
+                    <div class="mr-2 inline-flex items-center justify-center text-sm w-6 h-6 font-bold text-primary bg-primary-soft dark:text-primary-soft dark:bg-primary rounded-full">
+                        11
+                    </div>
+                    <div>
+                        <p class="text-sm sm:text-base font-bold text-gray-900 dark:text-white">
+                            Mesimi 11
+                        </p>
+                        <p class="text-gray-500 text-muted text-sm dark:text-white mt-0.5">
+                            Alfabeti
+                        </p>
+                    </div>
+                </div>
+            </a>
+            <a href="#" class="my-3 block w-auto p-4 bg-white border border-gray-200 hover:border-primary rounded-lg shadow hover:bg-gray-100 dark:bg-gray-750 dark:border-gray-700 dark:hover:bg-gray-700">
+                <div class="flex">
+                    <div class="mr-2 inline-flex items-center justify-center text-sm w-6 h-6 font-bold text-primary bg-primary-soft dark:text-primary-soft dark:bg-primary rounded-full">
+                        12
+                    </div>
+                    <div>
+                        <p class="text-sm sm:text-base font-bold text-gray-900 dark:text-white">
+                            Mesimi 12
+                        </p>
+                        <p class="text-gray-500 text-muted text-sm dark:text-white mt-0.5">
+                            Alfabeti
+                        </p>
+                    </div>
+                </div>
+            </a>
+            <a href="#" class="my-3 block w-auto p-4 bg-white border border-gray-200 hover:border-primary rounded-lg shadow hover:bg-gray-100 dark:bg-gray-750 dark:border-gray-700 dark:hover:bg-gray-700">
+                <div class="flex">
+                    <div class="mr-2 inline-flex items-center justify-center text-sm w-6 h-6 font-bold text-primary bg-primary-soft dark:text-primary-soft dark:bg-primary rounded-full">
+                        13
+                    </div>
+                    <div>
+                        <p class="text-sm sm:text-base font-bold text-gray-900 dark:text-white">
+                            Mesimi 13
+                        </p>
+                        <p class="text-gray-500 text-muted text-sm dark:text-white mt-0.5">
+                            Alfabeti
+                        </p>
+                    </div>
+                </div>
+            </a>
+            <a href="#" class="my-3 block w-auto p-4 bg-white border border-gray-200 hover:border-primary rounded-lg shadow hover:bg-gray-100 dark:bg-gray-750 dark:border-gray-700 dark:hover:bg-gray-700">
+                <div class="flex">
+                    <div class="mr-2 inline-flex items-center justify-center text-sm w-6 h-6 font-bold text-primary bg-primary-soft dark:text-primary-soft dark:bg-primary rounded-full">
+                        14
+                    </div>
+                    <div>
+                        <p class="text-sm sm:text-base font-bold text-gray-900 dark:text-white">
+                            Mesimi 14
+                        </p>
+                        <p class="text-gray-500 text-muted text-sm dark:text-white mt-0.5">
+                            Alfabeti
+                        </p>
+                    </div>
+                </div>
+            </a>
+
+        </div>
     </aside>
     <div class="duration-500 p-4 sm:ml-48"
-        :class="{ ' sm:ml-16 z-10': !expandedSideBar ,  ' sm:ml-48 z-10': expandedSideBar}"
+        :class="{ ' sm:ml-80 sm:pl-12 z-10': !expandedSideBar ,  ' sm:ml-96 sm:pl-16 md:pl-24 z-10': expandedSideBar}"
     >
         <div class="p-4 my-14">
 {{--            <div class="grid grid-cols-3 gap-4 mb-4">--}}
@@ -148,8 +361,8 @@
 {{--            <div class="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">--}}
 {{--                <p class="text-2xl text-gray-400 dark:text-gray-500">asd</p>--}}
 {{--            </div>--}}
-            <div style="direction: rtl" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7 gap-4 mb-4">
-                <button data-mp3="https://www.islamcan.com/learn-arabic/arabic-alphabets/001-alif.mp3" href="#" class="pb-[5px] letter-button overflow-hidden block w-full sm:max-w-sm h-48 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+            <div style="direction: rtl" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-4 mb-4">
+                <button data-mp3="https://www.islamcan.com/learn-arabic/arabic-alphabets/001-alif.mp3" href="#" class="pb-[5px] letter-button overflow-hidden block w-full sm:max-w-sm h-48 bg-white border border-primary-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
                     <div class="h-full w-full flex-col justify-center items-center p-6">
                         <div class="flex justify-center items-center h-3/4 p-2">
                             <img src="https://svgur.com/i/sfd.svg" class="invert-0 dark:invert h-full">
@@ -159,10 +372,10 @@
                                Elif
                             </p>
                         </div>
-                        
+
                     </div>
-                    <div style="direction: ltr" class="progress-bar w-full h-1.5 bg-gray-400">
-                        <div class="progress-bar__fill w-0 h-full text-center text-xs text-white bg-blue-500">
+                    <div style="direction: ltr" class="progress-bar w-full h-1.5 bg-gray-300">
+                        <div class="progress-bar__fill w-0 h-full text-center text-xs text-white bg-primary">
                         </div>
                     </div>
                 </button>
@@ -242,7 +455,7 @@
                         </div>
                     </div>
                     <div style="direction: ltr" class="progress-bar w-full h-1.5 bg-gray-400">
-                        <div class="progress-bar__fill w-0 h-full text-center text-xs text-white bg-blue-500">
+                        <div class="progress-bar__fill w-0 h-full text-center text-xs text-white bg-primary">
                         </div>
                     </div>
                 </button>
@@ -645,7 +858,7 @@
                     <svg id="theme-toggle-light-icon" class="hidden w-6 h-6 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
                 </button>
             </div>
-            
+
         </div>
         <style>
             .animate-shake {
@@ -657,7 +870,7 @@
                 10%, 90% {
                     transform: translate3d(-1px, 0, 0);
                 }
-                
+
                 20%, 80% {
                     transform: translate3d(2px, 0, 0);
                 }
